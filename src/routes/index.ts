@@ -1,5 +1,3 @@
-
 export default {
-    allRoutes: [
-    ]
-}
+  allRoutes: [],
+};
