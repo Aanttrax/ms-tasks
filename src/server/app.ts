@@ -1,4 +1,4 @@
-import express, { Application, Request, Response } from 'express';
+import express, { Application, NextFunction, Request, Response } from 'express';
 import { Routes } from '@interfaces/routes.interface';
 import { environment } from '@env/environment';
 import morgan from 'morgan';
@@ -10,54 +10,57 @@ import '@server/db';
 const { PORT, HOST } = environment;
 
 const corsOptions = {
-  origin: '*',
-  credentials: true, //access-control-allow-credentials:true
-  optionSuccessStatus: 200,
-  // exposedHeaders: ['auth-token']
+    origin: '*',
+    credentials: true, //access-control-allow-credentials:true
+    optionSuccessStatus: 200,
+    // exposedHeaders: ['auth-token']
 };
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default (_routes: Routes) => {
-  const app: Application = express();
 
-  //middlewares
-  app.use(helmet());
-  app.use(morgan('dev'));
-  app.use(express.json({ limit: '50mb' }));
-  app.use(express.urlencoded({ extended: true }));
-  app.use(compression({ filter: () => true }));
-  app.use(cors(corsOptions));
+export default (routes: Routes) => {
+    const app: Application = express();
 
-  //test alive
-  app.use('/alive', (_req: Request, res: Response) => {
-    res.status(200).json({ success: true, response: 'Server online' });
-  });
+    //middlewares
+    app.use(helmet());
+    app.use(morgan('dev'));
+    app.use(express.json({ limit: '50mb' }));
+    app.use(express.urlencoded({ extended: true }));
+    app.use(compression({ filter: () => true }));
+    app.use(cors(corsOptions));
 
-  //application routes
-  // app.use('/', routes.allRoutes);
-
-  //404 error
-  app.use((err: Error, _req: Request, res: Response) => {
-    res.status(404).json({
-      success: false,
-      error: err.message || err || 'Not Found',
-      stack: err.stack || null,
+    //test alive
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    app.use('/alive', (_req: Request, res: Response, _next: NextFunction) => {
+        res.status(200).json({ success: true, response: 'Server online' });
     });
-  });
 
-  //500 error
-  app.use((err: Error, _req: Request, res: Response) => {
-    res.status(500).json({
-      success: false,
-      error: err.message || 'Internal Server Error',
-      stack: err.stack || null,
+    //application routes
+    app.use('/', routes.allRoutes);
+
+    //404 error
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
+        res.status(404).json({
+            success: false,
+            error: err.message || err || 'Not Found',
+            stack: err.stack || null,
+        });
     });
-  });
 
-  app.set('port', PORT);
-  app.set('host', HOST);
+    //500 error
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
+        res.status(500).json({
+            success: false,
+            error: err.message || err || 'Internal Server Error',
+            stack: err.stack || null,
+        });
+    });
 
-  //load server
-  app.listen(PORT, () => {
-    console.log('\x1b[35m%s\x1b[0m', '-------> LISTENING AT PORT: ' + PORT + ' <-------');
-  });
+    app.set('port', PORT);
+    app.set('host', HOST);
+
+    //load server
+    app.listen(PORT, () => {
+        console.log('\x1b[35m%s\x1b[0m', '-------> LISTENING AT PORT: ' + PORT + ' <-------');
+    });
 };
