@@ -1,13 +1,13 @@
 process.loadEnvFile();
 
 export interface IEnviroment {
-  readonly PORT: string;
-  readonly HOST: string;
-  readonly MONGO_USER: string;
-  readonly MONGO_PWD: string;
-  readonly MONGO_HOST: string;
-  readonly MONGO_DB_NAME: string;
-  readonly MONGO_OPTIONS: string;
+    readonly PORT: string;
+    readonly HOST: string;
+    readonly MONGO_USER: string;
+    readonly MONGO_PWD: string;
+    readonly MONGO_HOST: string;
+    readonly MONGO_DB_NAME: string;
+    readonly MONGO_OPTIONS: string;
 }
 
 if (!process.env.PORT) throw new Error('The environment variable PORT is not defined');
@@ -19,11 +19,11 @@ if (!process.env.MONGO_DB_NAME) throw new Error('The environment variable MONGO_
 if (!process.env.MONGO_OPTIONS) throw new Error('The environment variable MONGO_OPTIONS is not defined');
 
 export const environment: IEnviroment = {
-  PORT: process.env.PORT,
-  HOST: process.env.HOST,
-  MONGO_USER: process.env.MONGO_USER,
-  MONGO_PWD: process.env.MONGO_PWD,
-  MONGO_HOST: process.env.MONGO_HOST,
-  MONGO_DB_NAME: process.env.MONGO_DB_NAME,
-  MONGO_OPTIONS: process.env.MONGO_OPTIONS,
+    PORT: process.env.PORT,
+    HOST: process.env.HOST,
+    MONGO_USER: process.env.MONGO_USER,
+    MONGO_PWD: process.env.MONGO_PWD,
+    MONGO_HOST: process.env.MONGO_HOST,
+    MONGO_DB_NAME: process.env.MONGO_DB_NAME,
+    MONGO_OPTIONS: process.env.MONGO_OPTIONS,
 };
