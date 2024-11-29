@@ -1,4 +1,4 @@
-import express, { Application, Request, Response, NextFunction } from 'express';
+import express, { Application, NextFunction, Request, Response } from 'express';
 import { Routes } from '@interfaces/routes.interface';
 import { environment } from '@env/environment';
 import morgan from 'morgan';
@@ -7,7 +7,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import '@server/db';
 
-const { PORT, HOST } = environment
+const { PORT, HOST } = environment;
 
 const corsOptions = {
     origin: '*',
@@ -16,8 +16,7 @@ const corsOptions = {
     // exposedHeaders: ['auth-token']
 };
 
-export default (_routes: Routes) => {
-
+export default (routes: Routes) => {
     const app: Application = express();
 
     //middlewares
@@ -29,15 +28,17 @@ export default (_routes: Routes) => {
     app.use(cors(corsOptions));
 
     //test alive
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     app.use('/alive', (_req: Request, res: Response, _next: NextFunction) => {
-        res.status(200).json({ success: true, response: "Server online" });
+        res.status(200).json({ success: true, response: 'Server online' });
     });
 
     //application routes
-    // app.use('/', routes.allRoutes);
+    app.use('/', routes.allRoutes);
 
     //404 error
-    app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
         res.status(404).json({
             success: false,
             error: err.message || err || 'Not Found',
@@ -46,11 +47,12 @@ export default (_routes: Routes) => {
     });
 
     //500 error
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
         res.status(500).json({
             success: false,
-            error: err.message || 'Internal Server Error',
-            stack: err.stack || null
+            error: err.message || err || 'Internal Server Error',
+            stack: err.stack || null,
         });
     });
 
@@ -59,6 +61,6 @@ export default (_routes: Routes) => {
 
     //load server
     app.listen(PORT, () => {
-        console.log('\x1b[35m%s\x1b[0m', '-------> LISTENING AT PORT: ' + PORT + ' <-------')
+        console.log('\x1b[35m%s\x1b[0m', '-------> LISTENING AT PORT: ' + PORT + ' <-------');
     });
 };

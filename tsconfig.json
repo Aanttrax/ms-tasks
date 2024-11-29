@@ -8,7 +8,9 @@
       "@interfaces/*": ["src/interfaces/*"],
       "@server/*": ["src/server/*"],
       "@routes/*": ["src/routes/*"],
-      "@env/*": ["src/environment/*"]
+      "@env/*": ["src/environment/*"],
+      "@controllers/*": ["src/controllers/*"],
+      "@database/*": ["src/database/*"]
     },
     "sourceMap": true,
     "outDir": "./dist",
