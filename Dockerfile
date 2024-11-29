@@ -13,6 +13,7 @@ RUN npm run build
 FROM node:23.3.0-alpine3.19
 WORKDIR /usr
 COPY package.json ./
+RUN sed -i 's/"prepare": "husky"/"prepare": ""/g' package.json
 RUN npm install --only=production
 COPY --from=build /usr/dist ./dist
 RUN echo "" > .env
