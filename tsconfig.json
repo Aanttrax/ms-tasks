@@ -10,7 +10,8 @@
       "@routes/*": ["src/routes/*"],
       "@env/*": ["src/environment/*"],
       "@controllers/*": ["src/controllers/*"],
-      "@database/*": ["src/database/*"]
+      "@database/*": ["src/database/*"],
+      "@middleware/*": ["src/middleware/*"]
     },
     "sourceMap": true,
     "outDir": "./dist",
