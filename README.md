@@ -98,8 +98,6 @@ Task Management Microservice crafted with **TypeScript, Express.js, and MongoDB,
               "title": ".......",
               "description": "....",
               "done": false,
-              "createdAt": "2024-11-29T20:00:39.834Z",
-              "updatedAt": "2024-11-29T20:20:01.548Z"
             }
          ]
         }
@@ -116,8 +114,6 @@ Task Management Microservice crafted with **TypeScript, Express.js, and MongoDB,
               "title": ".......",
               "description": "....",
               "done": false,
-              "createdAt": "2024-11-29T20:00:39.834Z",
-              "updatedAt": "2024-11-29T20:20:01.548Z"
             }
         }
         ```
@@ -138,7 +134,7 @@ Task Management Microservice crafted with **TypeScript, Express.js, and MongoDB,
           "response": "Task Updated"
         }
         ```
-6. Get Task by Id
+6. Delete Task by Id
     - DELETE `/task/:taskId`
     - Response:
         ```json
