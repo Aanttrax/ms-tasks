@@ -20,7 +20,7 @@ const createTask = async (task: Task): Promise<void> => {
 
 const getTasks = async (): Promise<ITask[]> => {
     try {
-        const tasks: ITask[] = await TaskModel.find({}).lean();
+        const tasks: ITask[] = await TaskModel.find({}, { createdAt: 0, updatedAt: 0 }).lean();
         return tasks;
     } catch (e: unknown) {
         if (e instanceof Error) {
@@ -34,7 +34,7 @@ const getTasks = async (): Promise<ITask[]> => {
 
 const getTaskById = async (taskId: string): Promise<ITask> => {
     try {
-        const task: ITask | null = await TaskModel.findById(taskId).lean();
+        const task: ITask | null = await TaskModel.findById(taskId, { createdAt: 0, updatedAt: 0 }).lean();
         if (!task) throw 'Task not Found';
         return task;
     } catch (e: unknown) {
