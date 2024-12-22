@@ -1,12 +1,12 @@
-import mongoose from 'mongoose';
+import mongoose, { Types } from 'mongoose';
 import { TaskSchema, ITask } from '@database/schemas/task.schema';
 import { Task } from '@interfaces/task.interface';
 
 const TaskModel = mongoose.model('Task', TaskSchema, 'tasks');
 
-const createTask = async (task: Task): Promise<void> => {
+const createTask = async (task: Task, userId: string): Promise<void> => {
     try {
-        await TaskModel.create(task);
+        await TaskModel.create({ ...task, userId });
         return;
     } catch (e: unknown) {
         if (e instanceof Error) {
@@ -18,9 +18,14 @@ const createTask = async (task: Task): Promise<void> => {
     }
 };
 
-const getTasks = async (): Promise<ITask[]> => {
+const getTasks = async (userId: string): Promise<ITask[]> => {
     try {
-        const tasks: ITask[] = await TaskModel.find({}, { createdAt: 0, updatedAt: 0 }).lean();
+        const tasks: ITask[] = await TaskModel.find(
+            { userId: new Types.ObjectId(userId) },
+            { createdAt: 0, updatedAt: 0 }
+        )
+            .sort({ done: -1 })
+            .lean();
         return tasks;
     } catch (e: unknown) {
         if (e instanceof Error) {

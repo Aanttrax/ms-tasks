@@ -6,15 +6,17 @@ export default class TaskController {
     static async createTask(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
             const taskData: Task = req.body;
-            await TaskDb.createTask(taskData);
+            const userId = req.userId;
+            await TaskDb.createTask(taskData, userId);
             res.status(201).json({ success: true, response: 'Task created' });
         } catch (e: unknown) {
             next(e);
         }
     }
-    static async getTasks(_req: Request, res: Response, next: NextFunction): Promise<void> {
+    static async getTasks(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
-            const tasks: Task[] = await TaskDb.getTasks();
+            const userId = req.userId;
+            const tasks: Task[] = await TaskDb.getTasks(userId);
             res.status(200).json({ success: true, response: tasks });
         } catch (e: unknown) {
             next(e);
