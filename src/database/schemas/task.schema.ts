@@ -3,6 +3,7 @@ import { Schema, Types } from 'mongoose';
 
 export interface ITask extends Task {
     _id: Types.ObjectId;
+    userId: Types.ObjectId;
 }
 
 export const TaskSchema = new Schema<ITask>(
@@ -22,6 +23,11 @@ export const TaskSchema = new Schema<ITask>(
         done: {
             type: Boolean,
             default: false,
+        },
+        userId: {
+            type: Schema.Types.ObjectId,
+            required: true,
+            ref: 'User',
         },
     },
     {
