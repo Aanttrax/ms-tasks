@@ -53,6 +53,7 @@ Task Management Microservice crafted with **TypeScript, Express.js, and MongoDB,
    MONGO_HOST=*******************
    MONGO_DB_NAME=************
    MONGO_OPTIONS=********************
+   TOKEN_SECRET=**************
    ```
 4. Start the development server:
    ```bash
